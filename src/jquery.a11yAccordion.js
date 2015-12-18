@@ -25,6 +25,9 @@
             // These are all "dt" elements on the page in an accordion
             this.$allTitles = $(".js-accordion dt");
 
+            // The accordion itsself
+            this.$accordion = $(this.element);
+
             // These are only the "dt" elements in the element
             this.$titles = $("dt", this.element);
 
@@ -46,15 +49,32 @@
 
             var _this = this;
 
+            _this.$accordion.
+                attr("role","tablist").
+                attr("aria-multiselectable","true");
+
             _this.$titles.
                 attr("aria-selected", "false").
                 not(":first").
-                attr("tabindex", "-1");
+                attr("tabindex", "-1").
+                attr("role","tab");
+
+            _this.$panels.
+                attr("role","tabpanel");
+
+            // Add aria-controls and aria-labelledby
+            _this.$titles.each(function(){
+                // Each title should have an ID, if one does not, generate one
+                if($(this).attr("id"))
+            });
 
             // Hides and prevents tabbing through all DOM elements in a non-selected panel
             // Also sets aria-expanded="false" by default on $titles.
+            // Allow elements to be expanded by default
             _this.$panels.each(function() {
-                _this.hide($(this));
+                if(!$(this).hasClass('accordion-visible')){
+                  _this.hide($(this));  
+                }
             });
         },
 
