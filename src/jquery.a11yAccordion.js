@@ -144,7 +144,7 @@
             // Removes "hide" class and sets appropriate aria/tabindex attr on title, panel,
             // and all panel children.
             $panel.
-                removeClass("hide").
+                removeClass("a11y-acc-hide").
                 attr("aria-hidden", "false").
                 find("*").each(function() {
                     $(this).attr("tabindex", "0");
@@ -158,7 +158,7 @@
             // Adds "hide" class and sets appropriate aria/tabindex attr on title, panel,
             // and all panel children.
             $panel.
-                addClass("hide").
+                addClass("a11y-acc-hide").
                 attr("aria-hidden", "true").
                 find("*").each(function() {
                     $(this).attr("tabindex", "-1");
@@ -171,7 +171,7 @@
         toggle: function($title) {
             var $panel = $title.next();
 
-            if ( $panel.hasClass("hide") ) {
+            if ( $panel.hasClass("a11y-acc-hide") ) {
                 this.show($panel);
             } else {
                 this.hide($panel);
