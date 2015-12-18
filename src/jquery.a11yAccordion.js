@@ -65,16 +65,39 @@
             // Add aria-controls and aria-labelledby
             _this.$titles.each(function(){
                 // Each title should have an ID, if one does not, generate one
-                if($(this).attr("id"))
+                // Generate a unique ID if we need to use it
+                var id = Math.floor(Math.random() * Date.now());
+                var tabId = "";
+                var panelId = "";
+                
+                if(!$(this).attr("id")){                  
+                  tabId = "a11y-acc-tab-"+id;
+                  $(this).attr("id",tabId);
+                  // Add a labelled by to the panel this title controls
+                  // if there is no ID there
+                  if(!$(this).next().attr("id")){
+                    panelId = "a11y-acc-panel-"+id;
+                    $(this).next().attr("id",panelId);
+                  }
+                  else{
+                    panelId = $(this).next().attr("id");
+                  }
+                }
+                else{
+                  tabId = $(this).attr("id");
+                  panelId = $(this).next().attr("id") ? $(this).next().attr("id") : "a11y-acc-panel-"+id;
+                }
+                $(this).attr("aria-controls",panelId);
+                $(this).next().attr("aria-labelledby",tabId);
             });
 
             // Hides and prevents tabbing through all DOM elements in a non-selected panel
             // Also sets aria-expanded="false" by default on $titles.
             // Allow elements to be expanded by default
-            _this.$panels.each(function() {
-                if(!$(this).hasClass('accordion-visible')){
-                  _this.hide($(this));  
-                }
+            _this.$panels.each(function() {  
+              if(!$(this).hasClass('accordion-visible')){
+                  _this.hide($(this));
+              }
             });
         },
 
