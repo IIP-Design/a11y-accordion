@@ -105,8 +105,9 @@
             var _this = this;
 
             _this.$titles.
-                on("click", function() {
+                on("click", function(e) {
                     _this.toggle( $(this) );
+                    e.stopImmediatePropagation();
             }).
                 on("selectstart", function(e) {
                     e.preventDefault();
